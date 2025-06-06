@@ -15,6 +15,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     'demo' => env('APP_DEMO', false),
+    'installer' => env('INSTALLER', true), //set to false after install
 
     /*
     |--------------------------------------------------------------------------

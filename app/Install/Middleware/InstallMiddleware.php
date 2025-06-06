@@ -16,6 +16,10 @@ class InstallMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        //skip installer if not enabled
+        if (!config('app.installer')) {
+            return $next($request);
+        }
         // Check if installation route and already installed
         if ($this->isInstalled() && $request->is('install*')) {
             return redirect('/');

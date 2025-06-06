@@ -301,6 +301,7 @@ class LaunchpadsController extends Controller
         ];
         $stats = [];
         // Calculate price changes for each time window
+        $priceChange = 0;
         foreach ($timeWindows as $period => $startTime) {
             $trades = ModelsTrade::where('launchpad_id', $launchpadId)
                 ->where('created_at', '>=', $startTime)
@@ -311,7 +312,8 @@ class LaunchpadsController extends Controller
             if ($trades->count() >= 2) {
                 $firstPrice = bcdiv("$first->usd", "$first->qty", 18);
                 $lastPrice = bcdiv("$last->usd", "$last->qty", 18);
-                $priceChange = bcdiv(bcsub($lastPrice, $firstPrice, 18), $firstPrice, 18) * 100;
+                if ($firstPrice > 0)
+                    $priceChange = bcdiv(bcsub($lastPrice, $firstPrice, 18), $firstPrice, 18) * 100;
             } else {
                 $priceChange = 0;
             }
